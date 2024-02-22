@@ -186,7 +186,7 @@
 
 
 
-        function e() {
+        function e(e) {
 
             if (day.value === "" || month.value === "" || year.value === "") {
                 year.style.border = "1px solid red"
@@ -220,55 +220,60 @@
                 }
                 let onth = [1, 3, 5, 7, 8, 9, 12]
 
-                if (cd.getFullYear() > cd2.getFullYear()) {
+                if (cd.getFullYear() > cd2.getFullYear() || cd.getFullYear() < 1970) {
                     document.querySelector(".act3").style.display = "block"
                     document.querySelector(".act3").innerHTML = "Must be a valid Year"
                     year.style.border = "1px solid red"
+                    month.style.border = "1px solid red"
+                    day.style.border = "1px solid red"
                 } else {
                     document.querySelector(".yea").innerHTML = t1
                     document.querySelector(".act3").style.display = "none"
                     year.style.border = "1px solid #ddd"
-                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
-                }
+                    // Month
+                    if (parseInt(month.value) <= 12 && parseInt(month.value) != 0) {
+                        month.style.border = "1px solid red"
+                        day.style.border = "1px solid red"
+                        for (i = 0; i < onth.length; i++) {
+                            if (parseInt(month.value) !== onth[i] && parseInt(day.value) > 31) {
+                                document.querySelector(".act2").style.display = "block"
+                                document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                                month.style.border = "1px solid red"
+                                day.style.border = "1px solid red"
 
-                if (parseInt(month.value) <= 12) {
-                    for (i = 0; i < onth.length; i++) {
-                        if (parseInt(month.value) !== onth[i] && parseInt(day.value) > 31) {
-                            document.querySelector(".act2").style.display = "block"
-                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
-                            month.style.border = "1px solid red"
+                            } else if (parseInt(month.value) === onth[i] && parseInt(day.value) > 31) {
+                                document.querySelector(".act2").style.display = "block"
+                                document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                                month.style.border = "1px solid red"
+                                day.style.border = "1px solid red"
+                            } else {
+                                document.querySelector(".mont").innerHTML = t2
+                                document.querySelector(".act2").style.display = "none"
+                                month.style.border = "1px solid #ddd"
+                                document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                            }
 
-                        } else if (parseInt(month.value) === onth[i] && parseInt(day.value) > 31) {
-                            document.querySelector(".act2").style.display = "block"
-                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
-                            month.style.border = "1px solid red"
-                        } else {
-                            document.querySelector(".mont").innerHTML = t2
-                            document.querySelector(".act2").style.display = "none"
-                            month.style.border = "1px solid #ddd"
-                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                            // day
+
+                            if (parseInt(day.value) > 31 || parseInt(day.value) == 0) {
+                                day.style.border = "1px solid red"
+                                document.querySelector(".act1").style.display = "block"
+                                document.querySelector(".act1").innerHTML = "Must be a valid Day"
+                            } else {
+                                day.style.border = "1px solid #ddd"
+                                document.querySelector(".day").innerHTML = t3 + 3
+                                document.querySelector(".act1").style.display = "none"
+                            }
                         }
+                    } else {
+                        month.style.border = "1px solid red";
+                        document.querySelector(".act2").style.display = "block";
                     }
-                } else {
-                    month.style.border = "1px solid red"
-                    document.querySelector(".act2").style.display = "block"
-                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
-                }
 
-                if (parseInt(day.value) > 31) {
-                    day.style.border = "1px solid red"
-                    document.querySelector(".act1").style.display = "block"
-                    document.querySelector(".act1").innerHTML = "Must be a valid Day"
-                } else {
-                    day.style.border = "1px solid #ddd"
-                    document.querySelector(".day").innerHTML = t3 + 3
-                    document.querySelector(".act1").style.display = "none"
-                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
                 }
 
             }
         }
-
 
 
 
