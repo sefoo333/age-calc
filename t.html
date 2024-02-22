@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: "Poppins", sans-serif;
+
+        }
+
+        .par form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+
+
+            & .dayy,
+            & .month,
+            & .year {
+                display: flex;
+                flex-direction: column;
+                margin-left: 10px;
+                padding: 25px;
+
+                & input {
+                    padding: 15px;
+                    width: 150px;
+                    font-size: 25px;
+                    border-radius: 10px;
+                    outline: none;
+                    border: 1px solid #ccc;
+                    transition: 0.5s;
+
+                }
+
+                & label {
+                    padding: 20px 0;
+                    font-size: 20px;
+                    letter-spacing: 5px;
+                    font-weight: 700;
+                    color: hsl(0, 1%, 44%);
+                }
+            }
+        }
+
+
+        .result h1 {
+            font-size: 80px;
+            font-style: italic;
+
+            & span {
+                color: hsl(259, 100%, 65%);
+            }
+        }
+
+        .but {
+            display: flex;
+            justify-content: end;
+
+            & svg {
+                background-color: hsl(259, 100%, 65%);
+                cursor: pointer;
+                user-select: none;
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+                padding: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        @media (max-width:767px) {
+            .par {
+                flex-direction: column;
+                display: flex;
+                align-items: center;
+            }
+
+            .par form {
+
+                & .dayy,
+                & .month,
+                & .year {
+                    margin-left: 4px;
+                    padding: 10px;
+
+                    & input {
+                        width: 105px;
+                        padding: 15px;
+                        font-size: 18px;
+                    }
+
+
+                }
+            }
+
+            .but {
+                margin: 45px 0;
+                justify-content: center;
+            }
+
+            .result h1 {
+                font-size: 60px;
+            }
+        }
+
+        .act1,
+        .act2,
+        .act3 {
+            color: red;
+            transition: 0.5s;
+            display: block;
+        }
+
+        .ac {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="par">
+        <form action="">
+            <div class="dayy">
+                <label for="dayy">Day</label>
+                <input type="text" maxlength="2" id="day" placeholder="DD">
+                <span class="act1 ac">Must be a valid day</span>
+            </div>
+            <div class="month">
+                <label for="month">Month</label>
+                <input type="text" maxlength="2" id="month" placeholder="MM">
+                <span class="act2 ac">Must be a valid Month</span>
+            </div>
+            <div class="year">
+                <label for="Year">Year</label>
+                <input type="text" maxlength="4" id="year" placeholder="YYYY">
+                <span class="act3 ac">Must be a valid Year</span>
+            </div>
+
+        </form>
+
+        <div class="but" onclick="e()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="46" height="44" viewBox="0 0 46 44">
+                <g fill="none" stroke="#FFF" stroke-width="2">
+                    <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="result">
+            <h1><span class="yea">--</span> years</h1>
+            <h1><span class="mont">--</span> month</h1>
+            <h1><span class="day">--</span> day</h1>
+        </div>
+    </div>
+
+    <script>
+
+        let but = document.querySelector("[type='submit']");
+
+
+        let day = document.querySelector("#day");
+        let month = document.querySelector("#month");
+        let year = document.querySelector("#year");
+
+
+
+        function e(e) {
+
+            if (day.value === "" || month.value === "" || year.value === "") {
+                year.style.border = "1px solid red"
+                month.style.border = "1px solid red"
+                day.style.border = "1px solid red"
+
+                document.querySelectorAll(".ac").forEach((e) => {
+                    e.style.display = "block"
+                    e.innerHTML = `The Field Is Required`
+                });
+
+            } else {
+                document.querySelectorAll(".ac").forEach((e) => {
+                    e.style.display = "none"
+                });
+                let cd = new Date(parseInt(year.value), parseInt(month.value) - 1, parseInt(day.value))
+                let cd2 = new Date()
+                let t1 = cd2.getFullYear() - cd.getFullYear()
+                let t2 = cd2.getMonth() - cd.getMonth()
+                let t3 = cd2.getDate() - cd.getDate()
+
+                if (t2 < 0 || (t2 === 0 && t3 < 0)) {
+                    t1--;
+                    t2 += 12
+                }
+
+                if (t3 < 0) {
+                    let tt = new Date(cd2.getFullYear(), cd2.getMonth() - 1, 0)
+                    t3 += tt.getDate()
+                    t2--;
+                }
+                let onth = [1, 3, 5, 7, 8, 9, 12]
+
+                if (cd.getFullYear() > cd2.getFullYear()) {
+                    document.querySelector(".act3").style.display = "block"
+                    document.querySelector(".act3").innerHTML = "Must be a valid Year"
+                    year.style.border = "1px solid red"
+                } else {
+                    document.querySelector(".yea").innerHTML = t1
+                    document.querySelector(".act3").style.display = "none"
+                    year.style.border = "1px solid #ddd"
+                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                }
+
+                if (parseInt(month.value) <= 12) {
+                    for (i = 0; i < onth.length; i++) {
+                        if (parseInt(month.value) !== onth[i] && parseInt(day.value) > 31) {
+                            document.querySelector(".act2").style.display = "block"
+                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                            month.style.border = "1px solid red"
+
+                        } else if (parseInt(month.value) === onth[i] && parseInt(day.value) > 31) {
+                            document.querySelector(".act2").style.display = "block"
+                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                            month.style.border = "1px solid red"
+                        } else {
+                            document.querySelector(".mont").innerHTML = t2
+                            document.querySelector(".act2").style.display = "none"
+                            month.style.border = "1px solid #ddd"
+                            document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                        }
+                    }
+                } else {
+                    month.style.border = "1px solid red"
+                    document.querySelector(".act2").style.display = "block"
+                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                }
+
+                if (parseInt(day.value) > 31) {
+                    day.style.border = "1px solid red"
+                    document.querySelector(".act1").style.display = "block"
+                    document.querySelector(".act1").innerHTML = "Must be a valid Day"
+                } else {
+                    day.style.border = "1px solid #ddd"
+                    document.querySelector(".day").innerHTML = t3 + 3
+                    document.querySelector(".act1").style.display = "none"
+                    document.querySelector(".act2").innerHTML = "Must be a valid Month"
+                }
+
+            }
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>
